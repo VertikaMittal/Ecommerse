@@ -1,11 +1,13 @@
 const express=require('express');
-const bodyParser=require('body-parser');
 const env=require('dotenv');
+const pass=process.env.MONGO_DB_PASSWORD;
 
-const userRoutes=require('./routes/user')
+const authRoutes=require('./routes/auth');
+const adminRoutes=require('./routes/admin/auth');
+const categoryRoutes=require('./routes/category');
 
 const mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost:27017',
+mongoose.connect(`mongodb+srv://Vertika:pass@cluster0.pz6zl.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`,
 {
     useNewUrlParser:true,
     useUnifiedTopology:true,
@@ -20,18 +22,10 @@ env.config();
 const app=express();
 
 
-app.use(bodyParser());
-app.use('/api',userRoutes);
-// app.get('/',(req,res)=>{
-//     res.status(200).json({
-//         messase:"Hello from server"
-//     });
-// });
-// app.post('/data',(req,res)=>{
-//     res.status(200).json({
-//         messase:req.body
-//     });
-// });
+app.use(express.json());
+app.use('/api',authRoutes);
+app.use('/api',adminRoutes);
+app.use('/api',categoryRoutes);
 app.listen(process.env.Port,()=>{
     console.log(`Server is running on port ${process.env.Port}`);
 })
