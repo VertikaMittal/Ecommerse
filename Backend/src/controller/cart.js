@@ -9,7 +9,7 @@ exports.addItemToCart=(req,res)=>{
             if(item){
                 Cart.findOneAndUpdate({"user":req.user._id,"cartItems.product":product},
                 {"$set":{
-                    "cartItems":
+                    "cartItems.$":
                     {...req.body.cartItems,
                         quantity:item.quantity+req.body.cartItems.quantity}
                 }

@@ -6,6 +6,7 @@ const adminRoutes=require('./routes/admin/auth');
 const categoryRoutes=require('./routes/category');
 const productRoutes=require('./routes/product');
 const cartRoutes=require('./routes/cart');
+const cors=require('cors');
 
 env.config();
 
@@ -25,13 +26,14 @@ mongoose.connect(`mongodb+srv://Vertika:${process.env.MONGO_DB_PASSWORD}@cluster
 
 const app=express();
 
-
+app.use(cors());
 app.use(express.json());
 app.use('/api',authRoutes);
 app.use('/api',adminRoutes);
 app.use('/api',categoryRoutes);
 app.use('/api',productRoutes);
 app.use('/api',cartRoutes);
+
 app.listen(process.env.Port,()=>{
     console.log(`Server is running on port ${process.env.Port}`);
 })
